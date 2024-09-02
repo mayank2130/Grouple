@@ -3,5 +3,13 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": "always",
         "source.organizeImports": "always"
+    },
+    "tailwindCSS.includeLanguages": {
+        "html": "html",
+        "javascript": "javascript",
+        "css": "css"
+    },
+    "editor.quickSuggestions": {
+        "strings": true
     }
 }
