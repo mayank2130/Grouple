@@ -27,9 +27,8 @@ export const onAuthenticatedUser = async () => {
                 username: `${user.firstname} ${user.lastname}`,
             }
 
-        return {status: 404 }
-        
+        return { status: 404 }
     } catch (error) {
-        return {status: 400}
+        return { status: 400 }
     }
 }
