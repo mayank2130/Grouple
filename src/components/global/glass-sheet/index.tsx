@@ -8,14 +8,23 @@ type GlassSheetProps = {
     triggerClass?: string
 }
 
-const GlassSheet = ({children, trigger, className, triggerClass}: GlassSheetProps) => {
+const GlassSheet = ({
+    children,
+    trigger,
+    className,
+    triggerClass,
+}: GlassSheetProps) => {
     return (
         <Sheet>
             <SheetTrigger className={cn(triggerClass)} asChild>
                 {trigger}
             </SheetTrigger>
-            <SheetContent 
-            className={cn("bg-clip-padding backdrop-filter backdrop--blur__safari backdrop-blur-3xl bg-opacity-20 bg-themeGray border-themeGray", className)}>
+            <SheetContent
+                className={cn(
+                    "bg-clip-padding backdrop-filter backdrop--blur__safari backdrop-blur-3xl bg-opacity-20 bg-themeGray border-themeGray",
+                    className,
+                )}
+            >
                 {children}
             </SheetContent>
         </Sheet>
