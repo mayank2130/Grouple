@@ -35,7 +35,7 @@ export const PricingSection = (props: Props) => {
                     </CardDescription>
                     <Link href="#" className="w-full mt-3">
                         <Button
-                            className="bg=[#333337] w-full rounded-2xl text-white hover:text-[#333337]"
+                            className="bg=[#333337] w-full rounded-2xl text-black hover:text-[#333337]"
                             variant="default"
                         >
                             Start for free
