@@ -167,3 +167,21 @@ export const onUpdateChannelInfo = async (
         return { status: 400, message: "Oops! something went wrong" }
     }
 }
+
+export const onDeleteChannel = async (channelId: string) => {
+    try {
+      const channel = await client.channel.delete({
+        where: {
+          id: channelId,
+        },
+      })
+  
+      if (channel) {
+        return { status: 200, message: "Channel deleted successfully" }
+      }
+  
+      return { status: 404, message: "Channel not found!" }
+    } catch (error) {
+      return { status: 400, message: "Oops! something went wrong" }
+    }
+  }
