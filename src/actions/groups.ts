@@ -128,3 +128,26 @@ export const onGetGroupInfo = async (groupid: string) => {
         return { status: 400 }
     }
 }
+
+export const onGetAllGroupMembers = async (groupid: string) => {
+    try {
+      const user = await onAuthenticatedUser()
+      const members = await client.members.findMany({
+        where: {
+          groupId: groupid,
+          NOT: {
+            userId: user.id,
+          },
+        },
+        include: {
+          User: true,
+        },
+      })
+  
+      if (members && members.length > 0) {
+        return { status: 200, members }
+      }
+    } catch (error) {
+      return { status: 400, message: "Oops something went wrong" }
+    }
+  }
