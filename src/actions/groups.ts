@@ -168,3 +168,28 @@ export const onGetGroupChannels = async (groupid: string) => {
         return { status: 400, message: "Oops! something went wrong" }
     }
 }
+
+export const onGetGroupSubscriptions = async (groupid: string) => {
+    try {
+        const subscriptions = await client.subscription.findMany({
+            where: {
+                groupId: groupid,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        })
+
+        const count = await client.members.count({
+            where: {
+                groupId: groupid,
+            },
+        })
+
+        if (subscriptions) {
+            return { status: 200, subscriptions, count }
+        }
+    } catch (error) {
+        return { status: 400 }
+    }
+}
