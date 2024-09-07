@@ -2,6 +2,7 @@ import { CreateGroupSchema } from "@/components/forms/create-group/schema"
 import { client } from "@/lib/prisma"
 import { v4 as uuidv4 } from "uuid"
 import { z } from "zod"
+import { onAuthenticatedUser } from "./auth"
 
 export const onGetAffiliateInfo = async (id: string) => {
     try {
@@ -103,5 +104,27 @@ export const onCreateNewGroup = async (
             status: 400,
             message: "Oops! group creation failed, try again later",
         }
+    }
+}
+
+export const onGetGroupInfo = async (groupid: string) => {
+    try {
+        const user = await onAuthenticatedUser()
+        const group = await client.group.findUnique({
+            where: {
+                id: groupid,
+            },
+        })
+
+        if (group)
+            return {
+                status: 200,
+                group,
+                groupOwner: user.id === group.userId ? true : false,
+            }
+
+        return { status: 404 }
+    } catch (error) {
+        return { status: 400 }
     }
 }
