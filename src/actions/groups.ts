@@ -131,23 +131,40 @@ export const onGetGroupInfo = async (groupid: string) => {
 
 export const onGetAllGroupMembers = async (groupid: string) => {
     try {
-      const user = await onAuthenticatedUser()
-      const members = await client.members.findMany({
-        where: {
-          groupId: groupid,
-          NOT: {
-            userId: user.id,
-          },
-        },
-        include: {
-          User: true,
-        },
-      })
-  
-      if (members && members.length > 0) {
-        return { status: 200, members }
-      }
+        const user = await onAuthenticatedUser()
+        const members = await client.members.findMany({
+            where: {
+                groupId: groupid,
+                NOT: {
+                    userId: user.id,
+                },
+            },
+            include: {
+                User: true,
+            },
+        })
+
+        if (members && members.length > 0) {
+            return { status: 200, members }
+        }
     } catch (error) {
-      return { status: 400, message: "Oops something went wrong" }
+        return { status: 400, message: "Oops something went wrong" }
     }
-  }
+}
+
+export const onGetGroupChannels = async (groupid: string) => {
+    try {
+        const channels = await client.channel.findMany({
+            where: {
+                groupId: groupid,
+            },
+            orderBy: {
+                createdAt: "asc",
+            },
+        })
+
+        return { status: 200, channels }
+    } catch (error) {
+        return { status: 400, message: "Oops! something went wrong" }
+    }
+}
