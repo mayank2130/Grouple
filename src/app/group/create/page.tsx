@@ -1,6 +1,6 @@
 import { onAuthenticatedUser } from "@/actions/auth"
 import { onGetAffiliateInfo } from "@/actions/groups"
-// import CreateGroup from "@/components/forms/create-group"
+import CreateGroup from "@/components/forms/create-group"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User } from "lucide-react"
 import { redirect } from "next/navigation"
@@ -45,11 +45,11 @@ const GroupCreatePage = async ({
                     </div>
                 )}
             </div>
-            {/* <CreateGroup
+            <CreateGroup
                 userId={user.id}
                 affiliate={affiliate.status === 200 ? true : false}
                 stripeId={affiliate.user?.Group?.User.stripeId || ""}
-            /> */}
+            />
         </>
     )
 }
