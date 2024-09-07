@@ -1,3 +1,5 @@
+"use server"
+
 import { CreateGroupSchema } from "@/components/forms/create-group/schema"
 import { client } from "@/lib/prisma"
 import { v4 as uuidv4 } from "uuid"
@@ -196,60 +198,63 @@ export const onGetGroupSubscriptions = async (groupid: string) => {
 
 export const onGetUserGroups = async (id: string) => {
     try {
-      const groups = await client.user.findUnique({
-        where: {
-          id,
-        },
-        select: {
-          group: {
-            select: {
-              id: true,
-              name: true,
-              icon: true,
-              channel: {
-                where: {
-                  name: "general",
-                },
-                select: {
-                  id: true,
-                },
-              },
+        const groups = await client.user.findUnique({
+            where: {
+                id,
             },
-          },
-          membership: {
             select: {
-              Group: {
-                select: {
-                  id: true,
-                  icon: true,
-                  name: true,
-                  channel: {
-                    where: {
-                      name: "general",
-                    },
+                group: {
                     select: {
-                      id: true,
+                        id: true,
+                        name: true,
+                        icon: true,
+                        channel: {
+                            where: {
+                                name: "general",
+                            },
+                            select: {
+                                id: true,
+                            },
+                        },
                     },
-                  },
                 },
-              },
+                membership: {
+                    select: {
+                        Group: {
+                            select: {
+                                id: true,
+                                icon: true,
+                                name: true,
+                                channel: {
+                                    where: {
+                                        name: "general",
+                                    },
+                                    select: {
+                                        id: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
             },
-          },
-        },
-      })
-  
-      if (groups && (groups.group.length > 0 || groups.membership.length > 0)) {
-        return {
-          status: 200,
-          groups: groups.group,
-          members: groups.membership,
+        })
+
+        if (
+            groups &&
+            (groups.group.length > 0 || groups.membership.length > 0)
+        ) {
+            return {
+                status: 200,
+                groups: groups.group,
+                members: groups.membership,
+            }
         }
-      }
-  
-      return {
-        status: 404,
-      }
+
+        return {
+            status: 404,
+        }
     } catch (error) {
-      return { status: 400 }
+        return { status: 400 }
     }
-  }
+}
