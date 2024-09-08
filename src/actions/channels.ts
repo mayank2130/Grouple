@@ -224,3 +224,35 @@ export const onLikeChannelPost = async (postid: string, likeid: string) => {
         return { status: 400, message: "Something went wrong" }
     }
 }
+
+export const onCreateChannelPost = async (
+    channelid: string,
+    title: string,
+    content: string,
+    htmlContent: string,
+    jsonContent: string,
+    postid: string,
+) => {
+    try {
+        const user = await onAuthenticatedUser()
+        const post = await client.post.create({
+            data: {
+                id: postid,
+                authorId: user.id!,
+                channelId: channelid,
+                title,
+                content,
+                htmlContent,
+                jsonContent,
+            },
+        })
+
+        if (post) {
+            return { status: 200, message: "Post successfully created" }
+        }
+
+        return { status: 404, message: "Channel not found" }
+    } catch (error) {
+        return { status: 400, message: "Oops! something went wrong" }
+    }
+}
