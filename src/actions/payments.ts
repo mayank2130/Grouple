@@ -82,3 +82,20 @@ export const onGetGroupSubscriptionPaymentIntent = async (groupid: string) => {
         return { status: 400, message: "Failed to load form" }
     }
 }
+
+export const onGetActiveSubscription = async (groupId: string) => {
+    try {
+        const subscription = await client.subscription.findFirst({
+            where: {
+                groupId: groupId,
+                active: true,
+            },
+        })
+
+        if (subscription) {
+            return { status: 200, subscription }
+        }
+    } catch (error) {
+        return { status: 404 }
+    }
+}
