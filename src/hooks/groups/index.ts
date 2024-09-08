@@ -3,9 +3,14 @@
 import { onSearchGroups } from "@/actions/groups"
 import { supabaseClient } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
-import { onClearSearch, onSearch } from "@/redux/slices/search-slice"
+import {
+    GroupStateProps,
+    onClearSearch,
+    onSearch,
+} from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
 import { useQuery } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 
@@ -97,4 +102,22 @@ export const useSearch = (search: "GROUPS" | "POSTS") => {
     }, [debounce])
 
     return { query, onSearchQuery }
+}
+
+export const useGroupInfo = () => {
+    const { data } = useQuery({
+        queryKey: ["about-group-info"],
+    })
+
+    const router = useRouter()
+
+    if (!data) router.push("/explore")
+
+    const { group, status } = data as { status: number; group: GroupStateProps }
+
+    if (status !== 200) router.push("/explore")
+
+    return {
+        group,
+    }
 }
