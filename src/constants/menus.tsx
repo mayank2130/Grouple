@@ -1,10 +1,15 @@
 import {
     AffiliateDuoToneBlack,
+    Buisness,
+    Chat,
+    Courses,
     CreditCard,
+    Document,
     Explore,
     GlobeDuoToneBlack,
     Home,
     IDuotoneBlack,
+    PersonalDevelopment,
     ZapDouToneBlack,
 } from "@/icons"
 
@@ -71,5 +76,53 @@ export const SIDEBAR_SETTINGS_MENU: MenuProps[] = [
         icon: <ZapDouToneBlack />,
         path: "integrations",
         integration: true,
+    },
+]
+
+export type GroupMenuProps = {
+    id: number
+    label: string
+    icon: JSX.Element
+    path: string
+}
+
+export const GROUP_PAGE_MENU: MenuProps[] = [
+    {
+        id: 0,
+        label: "Group",
+        icon: <Home />,
+        path: "/",
+        section: true,
+    },
+    {
+        id: 1,
+        label: "Courses",
+        icon: <Courses />,
+        path: "#pricing",
+        section: true,
+    },
+    {
+        id: 2,
+        label: "Events",
+        icon: <Buisness />,
+        path: "/explore",
+    },
+    {
+        id: 3,
+        label: "Members",
+        icon: <PersonalDevelopment />,
+        path: "/explore",
+    },
+    {
+        id: 4,
+        label: "About",
+        icon: <Document />,
+        path: "/explore",
+    },
+    {
+        id: 5,
+        label: "Huddle",
+        icon: <Chat />,
+        path: "/explore",
     },
 ]
