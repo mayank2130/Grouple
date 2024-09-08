@@ -1,4 +1,8 @@
-import { onDeleteChannel, onUpdateChannelInfo } from "@/actions/channels"
+import {
+    onDeleteChannel,
+    onLikeChannelPost,
+    onUpdateChannelInfo,
+} from "@/actions/channels"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
@@ -96,4 +100,27 @@ export const useChannelInfo = () => {
         onChannelDetele,
         deleteVariables,
     }
+}
+
+export const useLikeChannelPost = (postid: string) => {
+    const client = useQueryClient()
+    const { mutate, isPending } = useMutation({
+        mutationFn: (data: { likeid: string }) =>
+            onLikeChannelPost(postid, data.likeid),
+        onSuccess: (data) => {
+            toast(data.status === 200 ? "Success" : "Error", {
+                description: data.message,
+            })
+        },
+        onSettled: async () => {
+            await client.invalidateQueries({
+                queryKey: ["unique-post"],
+            })
+            return await client.invalidateQueries({
+                queryKey: ["channel-info"],
+            })
+        },
+    })
+
+    return { mutate, isPending }
 }
